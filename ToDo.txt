@@ -1,0 +1,1 @@
+1. Apply axios requests and form data on react in order to connect the database queries.
