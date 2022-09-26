@@ -1,9 +1,36 @@
-const UserController = require('../controllers/user.controller');
+const express = require('express'),
+  router = express.Router();
 
-module.exports = app => {
-  app.get('/api/users', UserController.allUsers);
-  app.get('/api/users/:id', UserController.oneUser);
-  app.post('/api/new_user', UserController.newUser);
-  app.put('/api/users/:id/update', UserController.updateUser);
-  app.delete('/api/users/:id/delete', UserController.deleteUser);
-}
+// get user lists
+router.get('/users/list', function(req, res) {
+  let sql = `SELECT * FROM users`;
+  db.query(sql, function(err, data, fields) {
+    if (err) throw err;
+    res.json({
+      status: 200,
+      data,
+      message: "User lists retrieved successfully"
+    })
+  })
+});
+
+// create new user
+router.post('/users/new', function(req, res) {
+  let sql = `INSERT INTO users(username, paassword, email, phone, company) VALUES (?)`;
+  let values = [
+    req.body.username,
+    req.body.password,
+    req.body.email,
+    req.body.phone,
+    req.body.company
+  ];
+  db.query(sql, [values], function(err, data, fields) {
+    if (err) throw err;
+    res.json({
+      status: 200,
+      message: "New user added successfully"
+    })
+  })
+});
+
+module.exports = router;
