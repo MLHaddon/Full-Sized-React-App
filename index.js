@@ -7,34 +7,27 @@ const path = require('path');
 const mysql = require('mysql');
 const router = require('./db/routes/user.routes');
 
+dotenv.config();
+const app = express();
+const port = process.env.PORT || 5000;
+
+//registering middlewares
+app.use(cors());
+app.use(bodyParser.json());
+app.use('/static', express.static(path.join(__dirname, 'public')))
+app.use('/api', router);
+
 db = mysql.createConnection({
   host: 'localhost',
   user: 'root',
-  password: 'Kr@kat0a',
+  password: 'root',
   database: 'my_db'
 })
-
-
 
 db.connect(function(err) {
   if (err) throw err
   console.log('Connected to MySQL Database.');
 });
-
-
-dotenv.config();
-const app = express();
-const port = process.env.PORT || 5000;
-
-
-
-//registering middlewares
-app.use(cors());
-app.use(express.json());
-app.use('/static', express.static(path.join(__dirname, 'public')))
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use('/api', router);
-
 
 app.listen(port, () => {
   console.log(`Connected to express at port ${port}`);

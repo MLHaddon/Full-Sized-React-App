@@ -1,6 +1,6 @@
-import placeholder from './300x200.png';
+import placeholder from './images/300x200.png';
 
-function Profile() {
+function Resume() {
   return (
     <>
       <div className="container">
@@ -10,13 +10,13 @@ function Profile() {
             <h1>Michael Lee Haddon II</h1>
           </div>
           <div className="col-6">
-            <p className="text-right"><a href="">Download my Resume</a></p>
+            <p className="text-right"></p>
           </div>
         </div>
         <div className="row">
           <div className="col-md-8 col-sm-12">
             <div className="media">
-              <img className="mr-3" src={placeholder} alt="Generic placeholder image"></img>
+              <img className="mr-3" src={placeholder} alt="Generic placeholder"></img>
               <div className="media-body">
                 <h5 className="mt-0">Web Developer</h5>
                 <div className="text-body font-weight-bolder text-lg-center" style={{fontSize: "1.25em"}}>
@@ -34,7 +34,7 @@ function Profile() {
                 <strong>Michael Lee Haddon II</strong><br />
                 4100 North Street<br />
                 Nacogdoches, TX 75965<br />
-                <abbr title="Phone">Cell Phone: <br />(Text First)<br /></abbr> (972) 741-7848 <br />
+                Cell: (972) 741-7848 <br /> (Text first please) <br /> 
                 <a href="mailto:#">haddon.mike2@outlook.com</a>
               </address>
             </div>
@@ -55,11 +55,11 @@ function Profile() {
             </div>
             <ul>
               <li>Implemented CS core concepts and data structures with JavaScript and Node.js.</li>
-              <li>Built verious applications in Reactjs using React-Router and Hooks.</li>
-              <li>Defined and utilized working models of computer science fundamentals such as single-core capabilities and working with JavaScript with a local node server as a runtime.</li>
-              <li>Built scalable, responsive Web and unit-testing applications through Node.js, Reactjs and axios, and Various dbm's and middleware.</li>
-              <li>Performed in group and pair programming sprints, utilizing various softwares such as twillo, github and zoom to streamline workflow.</li>
-              <li>Built and deployed full-stack serviced web applications through AWS and cloud services.</li>
+              <li>Built various applications in ReactJs using React-Router-dom and Hooks.</li>
+              <li>Defined and utilized working models of computer science fundamentals such as single-core capabilities and working with JavaScript on a local node server.</li>
+              <li>Built and deployed full-stack serviced web applications through AWS 's cloud hosting service.</li>
+              <li>Built scalable, responsive Web and unit-testing applications through Node.js and React, utilizing and service workers, security and others.</li>
+              <li>Performed in group and pair programming sprints, utilizing various software's such as Trello, Github and Zoom to streamline workflow.</li>
             </ul>
             <div className="row">
               <div className="col-6">
@@ -146,19 +146,9 @@ function Profile() {
             </div>
           </div>
         </div>
-        <hr />
-        <footer className="text-center">
-          <div className="container">
-            <div className="row">
-              <div className="col-12">
-                <p>Copyright © MyWebsite. All rights reserved.</p>
-              </div>
-            </div>
-          </div>
-        </footer>
       </div>
     </>
   );
 }
 
-export default Profile;
+export default Resume;

@@ -16,7 +16,7 @@ router.get('/users/list', function(req, res) {
 
 // create new user
 router.post('/users/new', function(req, res) {
-  let sql = `INSERT INTO users(username, paassword, email, phone, company) VALUES (?)`;
+  let sql = `INSERT INTO users(username, password, email, phone, company) VALUES (?)`;
   let values = [
     req.body.username,
     req.body.password,
