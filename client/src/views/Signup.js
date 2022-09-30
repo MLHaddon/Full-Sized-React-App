@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Link, Navigate } from "react-router-dom";
 import axios from 'axios';
-import SignupForm from '../components/signupForm';
+import SignupForm from '../components/SignupForm';
 
 function Signup() {
 
@@ -21,9 +21,9 @@ function Signup() {
 
   const handleFormSubmit = e => {
     e.preventDefault();
-    axios.post('http://127.0.0.1:5000/api/new_user', user)
+    axios.post('http://127.0.0.1:5001/api/users/new', user)
       .then(res => {
-        Navigate("/home")
+        Navigate("/home");
       })
       .catch(err => {
         setErrors([err]);
@@ -39,7 +39,7 @@ function Signup() {
         handleSubmit = {handleFormSubmit}
       />
       <p className="text-right">
-        Already registered <Link to="login">log in?</Link>
+        Already registered <Link to="../login">log in?</Link>
       </p>
     </div>
   );

@@ -1,6 +1,27 @@
 const express = require('express'),
   router = express.Router();
 
+// get one user
+router.get('/users/login', (req, res) => { 
+  let param = req.query.username;
+  let sql = `SELECT id FROM users where username = '${param}'`; 
+
+  
+  // TODO: Add password authentication and hashing
+
+
+  db.query(sql, (err, data, fields) => { 
+    if (err) {
+      throw err;
+    }
+    res.json({
+      status: 200,
+      data,
+      messsage: "Retrieved user successfully"
+    })
+  })
+});
+
 // get user lists
 router.get('/users/list', function(req, res) {
   let sql = `SELECT * FROM users`;
