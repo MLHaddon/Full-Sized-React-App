@@ -24,17 +24,19 @@ function Login() {
     })
   };
 
-  const handleFormSubmit = async e => {
+  const handleFormSubmit = e => {
     e.preventDefault();
-    const res = await axios.get('http://127.0.0.1:5001/api/users/login', {
+    axios.get('http://127.0.0.1:5001/api/users/login', {
       params: {
         username: user.username
       }
-    });
-    setUserId(res.data.data[0].id);
+    })
+      .then(res => {
+        setUserId(res.data.data.id);
+        console.log(res.data.data);
+      })
     sessionStorage.setItem('user', userId);
-    console.log(userId);
-  }
+  };
 
   return (
     <div className="mw-50 m-auto" style={{width: "400px"}} >
