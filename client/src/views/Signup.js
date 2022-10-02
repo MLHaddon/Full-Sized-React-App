@@ -1,9 +1,11 @@
 import { useState } from 'react';
 import { Link, Navigate } from "react-router-dom";
 import axios from 'axios';
-import SignupForm from '../components/signupForm';
+import SignupForm from '../components/SignupForm';
 
 function Signup() {
+
+  const [userId, setUserId] = useState()
 
   const [user, setUser] = useState({
     username: "",
@@ -19,16 +21,20 @@ function Signup() {
     })
   };
 
-  const handleFormSubmit = e => {
+  const handleFormSubmit = async e => {
     e.preventDefault();
-    axios.post('http://127.0.0.1:5000/api/new_user', user)
+    await axios.post('http://127.0.0.1:5001/api/users/new', user)
+    axios.get('http://127.0.0.1:5001/api/users/login', {
+      params: {
+        username: user.username
+      }
+    })
       .then(res => {
-        Navigate("/home")
+        setUserId(res.data.data.id);
+        console.log(res.data.data);
       })
-      .catch(err => {
-        setErrors([err]);
-      })
-  }
+    sessionStorage.setItem('user', userId);
+  };
 
   return (
     <div className="mw-50 m-auto" style={{width: "400px"}} >
@@ -39,7 +45,7 @@ function Signup() {
         handleSubmit = {handleFormSubmit}
       />
       <p className="text-right">
-        Already registered <Link to="login">log in?</Link>
+        Already registered <Link to="../login">log in?</Link>
       </p>
     </div>
   );
