@@ -13,25 +13,25 @@ import NavDropdown from 'react-bootstrap/NavDropdown';
 
 
 function App() {
-  
-  const [user] = useState(false); 
-  //TODO
-  /**
-   * Axios requests from the Signup page which redirect the "logged in" user to this page.
-   */
-  
+
+  const userID = localStorage.getItem('userID');
+
   const isLoggedIn = () => {
-    if (user) {
+    console.log(userID != null);
+    if (userID != null) {
       return (
-        <span>You are logged in</span>
-        // TODO
-        /**
-         * Nav dropdown list of each portfolio project.
-         */
+        <NavDropdown title="Portfolio" id="collapsible-nav-dropdown">
+          <NavDropdown.Item href="/">Home</NavDropdown.Item>
+          <NavDropdown.Item href="/">Home</NavDropdown.Item>
+          <NavDropdown.Item href="/">Home</NavDropdown.Item>
+          <NavDropdown.Item href="/">Home</NavDropdown.Item>
+          <NavDropdown.Item href="/">Home</NavDropdown.Item>
+          <NavDropdown.Item href="/">Home</NavDropdown.Item>
+        </NavDropdown>
       )
     } else {
       return (
-        <NavDropdown title="Login/Signup" id="collasible-nav-dropdown">
+        <NavDropdown title="Login/Signup" id="collapsible-nav-dropdown">
           <NavDropdown.Item href="login">Login</NavDropdown.Item>
           <NavDropdown.Item href="signup">Signup</NavDropdown.Item>
         </NavDropdown>

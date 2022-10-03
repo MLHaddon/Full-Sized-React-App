@@ -18,12 +18,12 @@ function Resume() {
             <div className="media">
               <img className="mr-3" src={placeholder} alt="Generic placeholder"></img>
               <div className="media-body">
-                <h5 className="mt-0">Web Developer</h5>
+                <h5 className="mt-0">Full Stack Developer</h5>
                 <div className="text-body font-weight-bolder text-lg-center" style={{fontSize: "1.25em"}}>
-                  Progressive critical thinker. Six years leadership and management experience serving in the US armed forces. Able to collaborate resourcefully in order to provide practical and innovative solutions.
+                  Progressive critical thinker. Six years leadership and management experience serving in the US armed forces. Able to collaborate and work resourcefully in order to provide practical and innovative solutions.
                 </div>
                 <div className="text-body text-md-center">
-                  Entry level programmer with military experience seeking Full time employment with a reputable company. Organized and effective with meticulous attention to detail. Able to strive independently with problem-solving skills, and effectively pair/group program in agile sprints. Very driven and committed towards career goals. Passionate and motivated to achieve a successful developer career and I'm excited to get my foot in the door and work with a great team.
+                  Entry level Full-Stack developer with military experience seeking Full time employment with a reputable company long-term. Organized and effective with meticulous attention to detail. Able to strive independently with problem-solving skills, and effectively pair/group program in agile sprints. I dont have the "traditional" experience in learning to program but I'm very driven and committed towards all of my career goals. I'm very passionate and motivated to achieve a successful developer career and I'm excited to start working!
                 </div>
               </div>
             </div>
@@ -93,7 +93,7 @@ function Resume() {
               <div className="progress-bar bg-info" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100" style={{width: "80%"}}> React/Nodejs</div>
             </div>
             <div className="progress mt-4">
-              <div className="progress-bar bg-warning" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style={{width: "70%"}}> MongoDB Atlas/Compass</div>
+              <div className="progress-bar bg-warning" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style={{width: "70%"}}> MySQL Shell / Workbench</div>
             </div>
             <div className="progress mt-4">
               <div className="progress-bar bg-danger" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style={{width: "50%"}}> PYTHON</div>

@@ -1,16 +1,9 @@
 import { useEffect, useState } from 'react';
-import { Link, Navigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from 'axios';
 import LoginForm from '../components/LoginForm';
 
 function Login() {
-
-  useEffect(e => {
-    console.log(userId);
-  })
-
-  const [userId, setUserId] = useState()
-
   const [user, setUser] = useState({
     username: "",
     password: "",
@@ -24,18 +17,24 @@ function Login() {
     })
   };
 
-  const handleFormSubmit = e => {
+  const navigate = useNavigate();
+
+  const handleFormSubmit = async e => {
     e.preventDefault();
-    axios.get('http://127.0.0.1:5001/api/users/login', {
+    await axios.get('http://127.0.0.1:5001/api/users/login', {
       params: {
         username: user.username
       }
     })
       .then(res => {
-        setUserId(res.data.data.id);
-        console.log(res.data.data);
+        localStorage.setItem('userID', res.data.data[0].id);
+        console.log(res.data.data[0].id);
+        console.log(localStorage.getItem('userID'));
       })
-    sessionStorage.setItem('user', userId);
+      .catch(err => {
+        setErrors([err]);
+      })
+    navigate('/');
   };
 
   return (

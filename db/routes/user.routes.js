@@ -17,6 +17,7 @@ router.get('/users/login', (req, res) => {
     res.json({
       status: 200,
       data,
+      fields,
       messsage: "Retrieved user successfully"
     })
   })

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link, Navigate } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import axios from 'axios';
 import SignupForm from '../components/SignupForm';
 
@@ -24,16 +24,15 @@ function Signup() {
   const handleFormSubmit = async e => {
     e.preventDefault();
     await axios.post('http://127.0.0.1:5001/api/users/new', user)
-    axios.get('http://127.0.0.1:5001/api/users/login', {
+    await axios.get('http://127.0.0.1:5001/api/users/login', {
       params: {
         username: user.username
       }
     })
       .then(res => {
-        setUserId(res.data.data.id);
-        console.log(res.data.data);
+        localStorage.setItem('userID', res.data.data[0].id);
       })
-    sessionStorage.setItem('user', userId);
+    Navigate('/');
   };
 
   return (
