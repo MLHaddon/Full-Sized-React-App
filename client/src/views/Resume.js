@@ -23,11 +23,11 @@ function Resume() {
                   Progressive critical thinker. Six years leadership and management experience serving in the US armed forces. Able to collaborate and work resourcefully in order to provide practical and innovative solutions.
                 </div>
                 <div className="text-body text-md-center">
-                  Entry level Full-Stack developer with military experience seeking Full time employment with a reputable company long-term. Organized and effective with meticulous attention to detail. Able to strive independently with problem-solving skills, and effectively pair/group program in agile sprints. I dont have the "traditional" experience in learning to program but I'm very driven and committed towards all of my career goals. I'm very passionate and motivated to achieve a successful developer career and I'm excited to start working!
+                  Entry level Full-Stack developer with military experience seeking Full time employment with an entry level position or startup company long-term. Organized and effective with meticulous attention to detail. Able to strive independently with problem-solving skills, and effectively pair/group program in agile sprints. I dont have the "traditional" experience in learning to program but I'm very driven and committed towards all of my career goals. I'm very passionate and motivated to achieve a successful developer career and I'm excited to start working!
                 </div>
               </div>
             </div>
-            
+
           </div>
           <div className="col-md-4 col-sm-12">
             <div className="row justify-content-md-around m-1">
