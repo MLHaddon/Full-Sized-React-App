@@ -4,21 +4,26 @@ import axios from 'axios';
 import LoginForm from '../components/LoginForm';
 
 function Login() {
+  // Add user and errors to the state
   const [user, setUser] = useState({
     username: "",
     password: "",
   });
   const [errors, setErrors] = useState([]);
+  
+  // Variables
+  const navigate = useNavigate();
 
-  const handleFormChange = e => { // setUser to search the user object for target name (create if not exist), then set each value.
+  // Active form handling (Updates with the state)
+  const handleFormChange = e => { 
     setUser({
       ...user,
       [e.target.name] : e.target.value
     })
   };
 
-  const navigate = useNavigate();
-
+  // Send an axios request to log the user in
+  //TODO: Add security measures for user ID's and hash the password
   const handleFormSubmit = async e => {
     e.preventDefault();
     await axios.get('http://127.0.0.1:5001/api/users/login', {
@@ -35,6 +40,7 @@ function Login() {
         setErrors([err]);
       })
     navigate('/');
+    window.location.reload(false);
   };
 
   return (

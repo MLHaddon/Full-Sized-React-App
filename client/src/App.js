@@ -17,11 +17,10 @@ function App() {
   const userID = localStorage.getItem('userID');
 
   const isLoggedIn = () => {
-    console.log(userID != null);
     if (userID != null) {
       return (
         <NavDropdown title="Portfolio" id="collapsible-nav-dropdown">
-          <NavDropdown.Item href="/">Home</NavDropdown.Item>
+          <NavDropdown.Item href="apps/chatbot_app">ChatBot_App</NavDropdown.Item>
           <NavDropdown.Item href="/">Home</NavDropdown.Item>
           <NavDropdown.Item href="/">Home</NavDropdown.Item>
           <NavDropdown.Item href="/">Home</NavDropdown.Item>
