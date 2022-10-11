@@ -33,6 +33,7 @@ function Signup() {
         localStorage.setItem('userID', res.data.data[0].id);
       })
     Navigate('/');
+    window.location.reload(false);
   };
 
   return (
