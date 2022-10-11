@@ -79,6 +79,7 @@ function Resume() {
           </div>
           <div className="col-md-6 col-sm-12">
             <h2>Skill Set</h2>
+            <h4>This is by no means a measurement of my experience in any particular field. I believe a programmer should always be learning, even down to new tricks with a familiar language/framework.</h4>
             <hr />
             <div className="progress mt-4">
               <div className="progress-bar bg-success" role="progressbar" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100" style={{width: "85%"}}> HTML</div>
