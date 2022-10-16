@@ -20,8 +20,7 @@ function Resume() {
               <div className="media-body">
                 <h5 className="mt-0">Full Stack Developer</h5>
                 <div className="text-body font-weight-bolder text-lg-center" style={{fontSize: "1.25em"}}>
-                  Progressive critical thinker. Six years leadership and management experience serving in the US armed forces. Able to collaborate and work resourcefully in order to provide practical and innovative solutions.
-                </div>
+                  Progressive critical thinker. Prospective Full-stack developer with Six years leadership and management experience serving in the US armed forces. Able to collaborate and work resourcefully in order to provide practical and innovative solutions.                </div>
                 <div className="text-body text-md-center">
                   Entry level Full-Stack developer with military experience seeking Full time employment with a reputable company long-term. Organized and effective with meticulous attention to detail. Able to strive independently with problem-solving skills, and effectively pair/group program in agile sprints. I dont have the "traditional" experience in learning to program but I'm very driven and committed towards all of my career goals. I'm very passionate and motivated to achieve a successful developer career and I'm excited to start working!
                 </div>
