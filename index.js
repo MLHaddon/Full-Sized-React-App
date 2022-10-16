@@ -1,33 +1,31 @@
-const express = require('express');
-const bodyParser = require('body-parser');
-const cors = require('cors');
-const dotenv = require('dotenv');
-const path = require('path');
+import express from 'express';
+import dotenv from "dotenv";
+import cookieParser from "cookie-parser";
+import cors from "cors";
+import db from "./config/Database.js";
+import router from "./routes/index.js";
 
-const mysql = require('mysql');
-const router = require('./db/routes/user.routes');
+// Add cors options
+var allowlist = ['http://localhost:3000']
+var corsOptionsDelegate = function (req, callback) {
+var corsOptions;
+if (allowlist.indexOf(req.header('Origin')) !== -1) {
+  corsOptions = { origin: true } // reflect (enable) the requested origin in the CORS response
+} else {
+  corsOptions = { origin: false } // disable CORS for this request
+}
+callback(null, corsOptions) // callback expects two parameters: error and options
+}
 
 dotenv.config();
 const app = express();
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 5001;
 
 //registering middlewares
-app.use(cors());
-app.use(bodyParser.json());
-app.use('/static', express.static(path.join(__dirname, 'public')))
+app.use(cors(corsOptionsDelegate));
+app.use(cookieParser());
+app.use(express.json());
 app.use('/api', router);
-
-db = mysql.createConnection({
-  host: 'localhost',
-  user: 'root',
-  password: 'root',
-  database: 'my_db'
-})
-
-db.connect(function(err) {
-  if (err) throw err
-  console.log('Connected to MySQL Database.');
-});
 
 app.listen(port, () => {
   console.log(`Connected to express at port ${port}`);

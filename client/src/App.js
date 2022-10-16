@@ -1,6 +1,5 @@
 import 'bootstrap/dist/css/bootstrap.css';
 import { Routes, Route } from 'react-router-dom';
-import { useState } from 'react';
 import Home from './views/Home';
 import Resume from './views/Resume';
 import Login from './views/Login';
@@ -11,16 +10,13 @@ import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 
 
-
 function App() {
-
   const userID = localStorage.getItem('userID');
-
   const isLoggedIn = () => {
     if (userID != null) {
       return (
         <NavDropdown title="Portfolio" id="collapsible-nav-dropdown">
-          <NavDropdown.Item href="apps/chatbot_app">ChatBot_App</NavDropdown.Item>
+          <NavDropdown.Item href="/apps/chatbot_app">ChatBot_App</NavDropdown.Item>
           <NavDropdown.Item href="/">Home</NavDropdown.Item>
           <NavDropdown.Item href="/">Home</NavDropdown.Item>
           <NavDropdown.Item href="/">Home</NavDropdown.Item>
@@ -47,7 +43,7 @@ function App() {
           <Navbar.Collapse id="responsive-navbar-nav">
             <Nav className="mr-auto">
               <Nav.Link href="/">Home</Nav.Link>
-              <Nav.Link href="Resume">Resume</Nav.Link>
+              <Nav.Link href="/resume">Resume</Nav.Link>
               {isLoggedIn()}
             </Nav>
           </Navbar.Collapse>
@@ -55,9 +51,9 @@ function App() {
       </Navbar>
       <Routes>
         <Route path="/" element={ <Home/> } />
-        <Route path="resume" element={ <Resume/> } />
-        <Route path="login" element={ <Login/> } />
-        <Route path="signup" element={ <Signup/> } />
+        <Route path="/resume" element={ <Resume/> } />
+        <Route path="/login" element={ <Login/> } />
+        <Route path="/signup" element={ <Signup/> } />
       </Routes>
       <hr />
       <footer className="text-center">
