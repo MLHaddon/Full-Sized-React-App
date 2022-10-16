@@ -35,6 +35,16 @@ const SignupForm = ({ inputs, handleChange, handleSubmit }) => {
             placeholder={inputs.password}
           />
       </div>
+      <div className="form-group m-1">
+          <label htmlFor="confPwd">Confirm Password</label>
+          <input 
+            type="password" 
+            name="confPwd"
+            className="form-control"
+            onChange={handleChange} 
+            placeholder={inputs.confPwd}
+          />
+      </div>
       <button type="submit" className="btn btn-dark btn-lg btn-block">Submit</button>
     </form>
   );

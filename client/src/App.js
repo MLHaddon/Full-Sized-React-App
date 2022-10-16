@@ -1,6 +1,5 @@
 import 'bootstrap/dist/css/bootstrap.css';
 import { Routes, Route } from 'react-router-dom';
-import { useState } from 'react';
 import Home from './views/Home';
 import Resume from './views/Resume';
 import Login from './views/Login';
@@ -11,11 +10,8 @@ import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 
 
-
 function App() {
-
   const userID = localStorage.getItem('userID');
-
   const isLoggedIn = () => {
     if (userID != null) {
       return (

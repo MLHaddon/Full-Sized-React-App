@@ -1,18 +1,18 @@
 import { useState } from 'react';
-import { Link, Navigate, useNavigate } from "react-router-dom";
-import axios from 'axios';
+import { Link, useNavigate } from "react-router-dom";
+import axios from '../api/axios';
 import SignupForm from '../components/SignupForm';
 
 function Signup() {
-
-  const [userId, setUserId] = useState()
-
   const [user, setUser] = useState({
-    username: "",
-    password: "",
-    email: ""
+    username:'',
+    email:'',
+    password:'',
+    confPwd:''
   });
-  const [errors, setErrors] = useState([]);
+  const [errors] = useState([]);
+  const navigate = useNavigate();
+  const [msg, setMsg] = useState('');
 
   const handleFormChange = e => { // setUser to search the user object for target name (create if not exist), then set each value.
     setUser({
@@ -23,21 +23,25 @@ function Signup() {
 
   const handleFormSubmit = async e => {
     e.preventDefault();
-    await axios.post('http://127.0.0.1:5001/api/users/new', user)
-    await axios.get('http://127.0.0.1:5001/api/users/login', {
-      params: {
-        username: user.username
+    try {
+      await axios.post('api/users', {
+        username: user.username,
+        email: user.email,
+        password: user.password,
+        confPwd: user.confPwd
+      });
+      navigate('/')
+    } catch (error) {
+      if (error.response) {
+        console.log(error.response.data.msg);
+        setMsg(error.response.data.msg);
       }
-    })
-      .then(res => {
-        localStorage.setItem('userID', res.data.data[0].id);
-      })
-    Navigate('/');
-    window.location.reload(false);
-  };
+    }
+  }
 
   return (
     <div className="mw-50 m-auto" style={{width: "400px"}} >
+      <p className="has-text-centered">{msg}</p>
       <SignupForm
         inputs = {user}
         errors = {errors}
