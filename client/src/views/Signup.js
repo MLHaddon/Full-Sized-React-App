@@ -1,55 +1,64 @@
-import { useState } from 'react';
+
+import React, { useState } from 'react';
 import { Link, useNavigate } from "react-router-dom";
 import axios from '../api/axios';
 import SignupForm from '../components/SignupForm';
+import { useAuth } from "../contexts/AuthContext";
 
 function Signup() {
   const [user, setUser] = useState({
-    username:'',
-    email:'',
-    password:'',
-    confPwd:''
+    username: '',
+    email: '',
+    password: '',
+    confPwd: ''
   });
-  const [errors] = useState([]);
+  const [error, setError] = useState("");
   const navigate = useNavigate();
-  const [msg, setMsg] = useState('');
+  const { login } = useAuth();
 
-  const handleFormChange = e => { // setUser to search the user object for target name (create if not exist), then set each value.
+  const handleFormChange = e => {
     setUser({
       ...user,
-      [e.target.name] : e.target.value
-    })
+      [e.target.name]: e.target.value
+    });
   };
 
   const handleFormSubmit = async e => {
     e.preventDefault();
+    setError("");
+
+    if (user.password !== user.confPwd) {
+      setError("Passwords do not match");
+      return;
+    }
+
     try {
-      await axios.post('api/users', {
+      const response = await axios.post('api/register', {
         username: user.username,
         email: user.email,
         password: user.password,
         confPwd: user.confPwd
       });
-      navigate('/')
-    } catch (error) {
-      if (error.response) {
-        console.log(error.response.data.msg);
-        setMsg(error.response.data.msg);
-      }
+
+      const { accessToken, userID, username } = response.data;
+
+      login(accessToken, { id: userID, username });
+      navigate("/");
+    } catch (err) {
+      setError(err.response?.data?.message || "An error occurred during signup");
     }
-  }
+  };
 
   return (
     <div className="mw-50 m-auto" style={{width: "400px"}} >
-      <p className="has-text-centered">{msg}</p>
+      {error && <p className="text-danger text-center">{error}</p>}
       <SignupForm
-        inputs = {user}
-        errors = {errors}
-        handleChange = {handleFormChange}
-        handleSubmit = {handleFormSubmit}
+        inputs={user}
+        handleChange={handleFormChange}
+        handleSubmit={handleFormSubmit}
       />
       <p className="text-right">
-        Already registered <Link to="../login">log in?</Link>
+        Already registered? <Link to="/login">Log in</Link>
       </p>
     </div>
   );

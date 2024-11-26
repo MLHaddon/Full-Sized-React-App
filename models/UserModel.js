@@ -7,16 +7,20 @@ const { DataTypes } = Sequelize;
 // Define the users model
 const Users = db.define('users', {
   username: {
-    type: DataTypes.STRING
+    type: DataTypes.STRING,
+    unique: true
   },
   email: {
-    type: DataTypes.STRING
+    type: DataTypes.STRING,
+    unique: true
   },
   password: {
-    type: DataTypes.STRING
+    type: DataTypes.STRING,
+    unique: true
   },
   refresh_token: {
-    type: DataTypes.TEXT
+    type: DataTypes.STRING,
+    unique: true,
   }
 }, {
   freezeTableName:true

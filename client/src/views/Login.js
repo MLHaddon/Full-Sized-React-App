@@ -1,60 +1,54 @@
+import React, { useState } from "react";
+import { useNavigate, Link } from "react-router-dom";
 import axios from "../api/axios";
-import { useState} from "react";
-import { useNavigate } from "react-router-dom";
 import LoginForm from "../components/LoginForm";
-import { Link } from "react-router-dom";
-
+import { useAuth } from "../contexts/AuthContext";
 
 function Login() {
+  const [user, setUser] = useState({
+    username: "",
+    password: "",
+  });
+  const [error, setError] = useState("");
+  const navigate = useNavigate();
+  const { login } = useAuth();
 
-      // Add user and errors to the state
-      const [user, setUser] = useState({
-        username: "",
-        password: "",
-      });
+  const handleFormChange = (e) => {
+    setUser({
+      ...user,
+      [e.target.name]: e.target.value,
+    });
+  };
 
-      // Variables
-      const navigate = useNavigate();
-      const [msg, setMsg] = useState('');
-    
-      // Active form handling (Updates with the state)
-      const handleFormChange = (e) => {
-        setUser({
-          ...user,
-          [e.target.name]: e.target.value,
-        });
-      };
-    
-      // Send an axios request to log the user in
-      //TODO: Add security measures for user ID's and hash the password
-      const handleFormSubmit = async (e) => {
-        e.preventDefault();
-        try {
-          await axios
-            .post("api/login", {
-              username: user.username,
-              password: user.password
-            });
-          navigate("/");
-        } catch (error) {
-          if (error) {
-            setMsg(error.response.data.msg);
-          }
-        }
-      };
+  const handleFormSubmit = async (e) => {
+    e.preventDefault();
+    setError("");
+
+    try {
+      const response = await axios.post("/api/login", user);
+      const { accessToken, userID, username } = response.data;
+      console.log(response.data);
+      login(accessToken, { id: userID, username });
+      username === 'admin' ? navigate('/ecommerce/AdminPanel', {replace: true}) : navigate("/", { replace: true });
+    } catch (err) {
+      setError(err.response?.data?.message || "An error occurred during login");
+    }
+  };
+
   return (
     <div className="mw-50 m-auto" style={{ width: "400px" }}>
-      <p className="has-text-centered">{msg}</p>
+      {error && <p className="text-danger text-center">{error}</p>}
       <LoginForm
         inputs={user}
         handleChange={handleFormChange}
         handleSubmit={handleFormSubmit}
       />
       <p className="forgot-password text-right">
-        Forgot <Link to="../">password?</Link>
+        <Link to="/forgot-password">Forgot password?</Link>
       </p>
     </div>
   );
 }
 
 export default Login;
+

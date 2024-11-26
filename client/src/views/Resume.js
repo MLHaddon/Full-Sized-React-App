@@ -3,6 +3,7 @@ import placeholder from './images/300x200.png';
 function Resume() {
   return (
     <>
+      <h1 className="text-center">Resume/Contact Me</h1>
       <div className="container">
         <hr />
         <div className="row">
@@ -31,9 +32,9 @@ function Resume() {
             <div className="row justify-content-md-around m-1">
               <address>
                 <strong>Michael Lee Haddon II</strong><br />
-                4100 North Street<br />
-                Nacogdoches, TX 75965<br />
-                Cell: (972) 741-7848 <br /> (Text first please) <br /> 
+                2854 County Road 3503<br />
+                Bullard, TX 75757<br />
+                Cell: (903) 332-0020 <br />
                 <a href="mailto:#">haddon.mike2@outlook.com</a>
               </address>
             </div>
@@ -119,7 +120,7 @@ function Resume() {
           </div>
         </div>
         <hr />
-        <h2>Contact</h2>
+        <h2>Contact Me</h2>
         <hr />
         <div className="container">
           <div className="row justify-content-center">

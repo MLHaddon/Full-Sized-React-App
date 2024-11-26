@@ -1,90 +1,140 @@
-import Users from '../models/UserModel.js';
+import Users from '../models/userModel.js';
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
-export const getUsers = async(req, res) => {
+export const getUsers = async (req, res) => {
   try {
     const users = await Users.findAll({
       attributes: ['id', 'username', 'email']
     });
     res.json(users);
   } catch (error) {
-    console.log(error);
+    console.error('Error in getUsers:', error);
+    res.status(500).json({ message: "Internal server error" });
   }
-}
+};
 
-export const Register = async(req, res) => {
-  const {username, email, password, confPwd} = req.body;
-  if(password !== confPwd) return res.status(400).json({msg: "Passwords must match"});
-  const salt = await bcrypt.genSalt();
-  const hashPwd = await bcrypt.hash(password, salt);
+export const getUser = async (req, res) => {
   try {
-    await Users.create({
-      username: username,
-      email: email,
-      password: hashPwd
-    })
-    res.json({msg: "Registration Successful"});
+    const user = await Users.findOne({
+      where: { id: req.userID },
+      attributes: ['id', 'username', 'email']
+    });
+    if (!user) return res.status(404).json({ message: "User not found" });
+    res.json(user);
   } catch (error) {
-    if (error) {
-      console.log(error);
-    }
+    console.error('Error in getUser:', error);
+    res.status(500).json({ message: "Internal server error" });
   }
-}
+};
 
-export const Login = async(req, res) => {
-  // Assign the user var with a user that matches the email provided
+export const Register = async (req, res) => {
+  const { username, email, password, confPwd } = req.body;
+  if (password !== confPwd) return res.status(400).json({ message: "Passwords do not match" });
+
   try {
-    const user = await Users.findAll({
-      where: {
-        username: req.body.username
-      }
+    const salt = await bcrypt.genSalt(10);
+    const hashPwd = await bcrypt.hash(password, salt);
+
+    const user = await Users.create({
+      username,
+      email,
+      password: hashPwd
     });
 
-    // Compare the password hashes using Bcrypt
-    const match = await bcrypt.compare(req.body.password, user[0].password);
+    const accessToken = jwt.sign(
+      { userID: user.id, username: user.username, email: user.email },
+      process.env.ACCESS_TOKEN_SECRET,
+      { expiresIn: '15m' }
+    );
+    
+    const refreshToken = jwt.sign(
+      { userID: user.id, username: user.username, email: user.email },
+      process.env.REFRESH_TOKEN_SECRET,
+      { expiresIn: '7d' }
+    );
 
-    // If they dont match end the function and return a message
-    if (!match) return res.status(400).json({msg: "Wrong Password"});
-    const userID = user[0].id;
-    const username = user[0].username;
-    const email = user[0].email;
-    const accessToken = jwt.sign({userID, username, email}, process.env.ACCESS_TOKEN_SECRET, {
-      expiresIn: '15s'
+    await Users.update({ refresh_token: refreshToken }, {
+      where: { id: user.id }
     });
-    const refreshToken = jwt.sign({userID, username, email}, process.env.REFRESH_TOKEN_SECRET, {
-      expiresIn: '1d'
-    });
-    await Users.update({refresh_token: refreshToken}, {
-      where: {
-        id: userID
-      }
-    });
+
     res.cookie('refreshToken', refreshToken, {
       httpOnly: true,
-      maxAge: 24 * 60 * 1000
+      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'strict'
     });
-    res.json({ accessToken });
-  } catch (error) {
-    res.status(404).json({msg: "Username not found"});
-  }
-}
 
-export const Logout = async(req, res) => {
-  const refreshToken = req.cookies.refreshToken;
-  if(!refreshToken) return res.sendStatus(204);
-  const user = await Users.findAll({
-      where:{
-          refresh_token: refreshToken
-      }
-  });
-  if(!user[0]) return res.sendStatus(204);
-  const userID = user[0].id;
-  await Users.update({refresh_token: null},{
-      where:{
-          id: userID
-      }
-  });
-  res.clearCookie('refreshToken');
-  return res.sendStatus(200);
-}
+    res.status(201).json({ accessToken, userID: user.id, username: user.username });
+  } catch (error) {
+    console.error('Error in Register:', error);
+    res.status(500).json({ message: "Error creating user" });
+  }
+};
+
+export const Login = async (req, res) => {
+  try {
+    const user = await Users.findOne({
+      where: { username: req.body.username }
+    });
+
+    if (!user) return res.status(404).json({ message: "User not found" });
+
+    const match = await bcrypt.compare(req.body.password, user.password);
+    if (!match) return res.status(400).json({ message: "Incorrect password" });
+
+    const accessToken = jwt.sign(
+      { userID: user.id, username: user.username, email: user.email },
+      process.env.ACCESS_TOKEN_SECRET,
+      { expiresIn: '15m' }
+    );
+    
+    const refreshToken = jwt.sign(
+      { userID: user.id, username: user.username, email: user.email },
+      process.env.REFRESH_TOKEN_SECRET,
+      { expiresIn: '7d' }
+    );
+
+    await Users.update({ refresh_token: refreshToken }, {
+      where: { id: user.id }
+    });
+
+    res.cookie('refreshToken', refreshToken, {
+      httpOnly: true,
+      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'strict'
+    });
+
+    res.json({ accessToken, userID: user.id, username: user.username });
+  } catch (error) {
+    console.error('Error in Login:', error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+export const Logout = async (req, res) => {
+  try {
+    const refreshToken = req.cookies.refreshToken;
+    if (!refreshToken) return res.sendStatus(204);
+
+    const user = await Users.findOne({
+      where: { refresh_token: refreshToken }
+    });
+
+    if (!user) {
+      res.clearCookie('refreshToken');
+      return res.sendStatus(204);
+    }
+
+    await Users.update({ refresh_token: null }, {
+      where: { id: user.id }
+    });
+    
+    res.clearCookie('refreshToken');
+    res.sendStatus(200);
+  } catch (error) {
+    console.error('Error in Logout:', error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
